@@ -1,4 +1,4 @@
-# utl-shorter-api
+# url-shorter-api
 URL Shortener API
 this project is use maven project, java spring boot version 4.1.1, and java version 21
 
