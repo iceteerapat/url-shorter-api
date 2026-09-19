@@ -5,7 +5,8 @@ public enum ResponseCode {
     INVALID_PASSWORD("100", "Invalid Password"),
     DUPLICATE_USER("200", "Duplicate user"),
     BAD_REQUEST("300", "Bad Request, please fill required fields"),
-    URL_NOT_FOUND("400", "URL not found");
+    URL_NOT_FOUND("400", "URL not found"),
+    DUPLICATE_LINK("500", "Duplicate link"),;
 
     private String code;
     private String desc;
