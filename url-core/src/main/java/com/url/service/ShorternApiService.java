@@ -9,7 +9,6 @@ import com.url.schemas.*;
 import io.jsonwebtoken.Claims;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,6 @@ public class ShorternApiService {
 
     @Value("${com.url.charecter:8}")
     private int charecter;
-
-    @Value("${com.url.security.safe-links}")
-    private String[] safeLinks;
 
     private ValidateService validateService;
     private TokenService tokenService;
@@ -137,11 +133,11 @@ public class ShorternApiService {
         if (link == null) {
             throw new RuntimeException("URL not found");
         }
-
-        if (!StringUtils.startsWithAny(link.getLongUrl(), safeLinks)) {
-            throw new RuntimeException("Link is not valid");
+        String longUrl = link.getLongUrl();
+        if (!link.getLongUrl().startsWith("http://") && !link.getLongUrl().startsWith("https://")) {
+            longUrl = "https://" + longUrl;
         }
-        return link.getLongUrl();
+        return longUrl;
     }
 
     public UrlsRes getUrls(String authorization) {
@@ -164,6 +160,7 @@ public class ShorternApiService {
         for(Link link : links) {
             LinkList linkList = new LinkList();
             linkList.setUrlId(link.getId());
+            linkList.setLongUrl(link.getLongUrl());
             linkList.setShortUrl(url.concat(link.getShortUrl()));
             urls.add(linkList);
         }

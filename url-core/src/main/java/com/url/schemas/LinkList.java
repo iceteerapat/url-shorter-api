@@ -7,6 +7,7 @@ public class LinkList implements Serializable {
 
     private Long urlId;
     private String shortUrl;
+    private String longUrl;
 
     public Long getUrlId() {
         return urlId;
@@ -22,5 +23,13 @@ public class LinkList implements Serializable {
 
     public void setShortUrl(String shortUrl) {
         this.shortUrl = shortUrl;
+    }
+
+    public String getLongUrl() {
+        return longUrl;
+    }
+
+    public void setLongUrl(String longUrl) {
+        this.longUrl = longUrl;
     }
 }
