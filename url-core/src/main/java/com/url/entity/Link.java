@@ -12,11 +12,8 @@ public class Link {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String customerNo;
-
-    @Column(unique = true, nullable = false)
-    private String urlId;
 
     @Column(unique = true, nullable = false)
     private String longUrl;
@@ -43,13 +40,6 @@ public class Link {
         this.customerNo = customerNo;
     }
 
-    public String getUrlId() {
-        return urlId;
-    }
-
-    public void setUrlId(String urlId) {
-        this.urlId = urlId;
-    }
 
     public String getLongUrl() {
         return longUrl;

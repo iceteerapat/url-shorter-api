@@ -1,16 +1,19 @@
 package com.url.schemas;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serializable;
 
-public class ShorterRes extends GenericResponse implements Serializable {
+public class LinkList implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("short_url")
+    private Long urlId;
     private String shortUrl;
 
-    public ShorterRes() {
+    public Long getUrlId() {
+        return urlId;
+    }
+
+    public void setUrlId(Long urlId) {
+        this.urlId = urlId;
     }
 
     public String getShortUrl() {

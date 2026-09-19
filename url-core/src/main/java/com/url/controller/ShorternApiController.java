@@ -3,10 +3,14 @@ package com.url.controller;
 import com.url.constant.ResponseCode;
 import com.url.schemas.*;
 import com.url.service.ShorternApiService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 public class ShorternApiController {
@@ -18,9 +22,25 @@ public class ShorternApiController {
         this.shorternApiService = shorternApiService;
     }
 
-    @PostMapping("/shortern")
-    public void perform(@RequestBody ShorterReq req) {
-        
+    @PostMapping("/shorter")
+    public ResponseEntity<ShorterRes> perform(@RequestHeader(value = "Authorization") String authorization, @RequestBody ShorterReq req) {
+        ShorterRes res = new ShorterRes();
+        if(StringUtils.isBlank(req.getLongUrl())){
+            ResponseCode rc = ResponseCode.BAD_REQUEST;
+            res.setResponseCode(rc.code());
+            res.setResponseDesc(rc.desc());
+            return ResponseEntity.badRequest().body(res);
+        }
+
+        res = shorternApiService.shorter(authorization, req.getLongUrl());
+
+        return ResponseEntity.ok(res);
+    }
+
+    @GetMapping("/{shortUrl}")
+    public void redirect(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
+        String originalUrl = shorternApiService.originalUrl(shortUrl);
+        response.sendRedirect(originalUrl);
     }
 
     @PostMapping("/register")
@@ -55,12 +75,32 @@ public class ShorternApiController {
     }
 
     @GetMapping("/urls")
-    public void urls(){
+    public ResponseEntity<UrlsRes> urls(@RequestHeader(value = "Authorization") String authorization){
+        UrlsRes res = new UrlsRes();
 
+        if(StringUtils.isBlank(authorization)){
+            ResponseCode rc = ResponseCode.BAD_REQUEST;
+            res.setResponseCode(rc.code());
+            res.setResponseDesc(rc.desc());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        res = shorternApiService.getUrls(authorization);
+
+        return ResponseEntity.ok(res);
     }
 
     @DeleteMapping("/urls/{id}")
-    public void delete(@PathVariable String id){
+    public ResponseEntity<GenericResponse> deactivate(@RequestHeader(value = "Authorization") String authorization, @PathVariable Long id){
+        GenericResponse res = new GenericResponse();
+        if(StringUtils.isBlank(authorization)){
+            ResponseCode rc = ResponseCode.BAD_REQUEST;
+            res.setResponseCode(rc.code());
+            res.setResponseDesc(rc.desc());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
+        res = shorternApiService.deactivate(authorization, id);
+        return ResponseEntity.ok(res);
     }
 }

@@ -8,8 +8,9 @@ if [ -f "./mvnw" ]; then
 else
     if command -v mvn &> /dev/null; then
         MVN_CMD="mvn"
-    else exit 1
+    else 
+        exit 1
     fi
 fi
 
-$MVN_CMD clean spring-boot:run "$@"
+$MVN_CMD clean spring-boot:run -Dspring-boot.run.jvmArguments="-Durl.log.path=./logs" "$@"

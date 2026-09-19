@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="url" packages="com.url.log4j">
+  <properties>
+    <property name="baseDir">$${sys:url.log.path}</property>
+    <property name="prefix" value="url" />
+  </properties>
+
+  <Appenders>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{ISO8601} %5p [%t] (%F:%L) - %m%n"/>
+    </Console>
+
+    <RollingFile name="EVENT"
+          filePattern="${baseDir}/${prefix}.%d{yyyy-MM-dd}.log">
+      <PatternLayout pattern="%d{ISO8601} %5p [%t] (%F:%L) - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </RollingFile>
+
+    <RollingFile name="ERROR"
+          filePattern="${baseDir}/${prefix}_error.%d{yyyy-MM-dd}.log">
+      <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+      <PatternLayout pattern="%d{ISO8601} %5p [%t] (%F:%L) - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </RollingFile>
+
+  </Appenders>
+
+  <Loggers>
+
+    <Logger name="org.apache.catalina" level="warn">
+    </Logger>
+    <Logger name="org.apache.cxf" level="info">
+    </Logger>
+
+    <Logger name="org.hibernate" level="info" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+    <Logger name="org.hibernate.SQL" level="debug" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+    <Logger name="org.hibernate.type" level="debug" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+    <Logger name="org.hibernate.hql.ast.AST" level="info" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+    <Logger name="org.hibernate.hql.internal.ast" level="info" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+    <Logger name="org.hibernate.hql" level="debug" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+    <Logger name="org.hibernate.tool.hbm2ddl" level="warn" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+    <Logger name="org.hibernate.cache" level="info" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+    <Logger name="org.hibernate.jdbc" level="debug" additivity="false">
+        <AppenderRef ref="HB" />
+    </Logger>
+
+    <Logger name="org.hibernate.validator.internal.util.Version" level="warn">
+    </Logger>
+
+    <Logger name="org.springframework" level="info">
+    </Logger>
+
+    <Logger name="org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker" level="warn">
+    </Logger>
+
+    <Logger name="org.springframework.boot.web.servlet.ServletRegistrationBean" level="warn">
+    </Logger>
+    <Logger name="org.springframework.boot.web.servlet.FilterRegistrationBean" level="warn">
+    </Logger>
+    <Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" level="warn">
+    </Logger>
+    <Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="warn">
+    </Logger>
+    <Logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="warn">
+    </Logger>
+    <Logger name="org.springframework.web.servlet.mvc.method.annotation" level="warn">
+    </Logger>
+    <Logger name="org.springframework.security.config" level="warn">
+    </Logger>
+    <Logger name="org.springframework.security.web.DefaultSecurityFilterChain" level="warn">
+    </Logger>
+    <Logger name="org.springframework.web.servlet.DispatcherServlet" level="warn">
+    </Logger>
+
+    <Logger name="org.springframework.data.repository.config.RepositoryConfigurationExtensionSupport" level="warn">
+    </Logger>
+    <Logger name="org.springframework.jmx.export.annotation.AnnotationMBeanExporter" level="warn">
+    </Logger>
+
+    <Logger name="com.url.mvc.LogInterceptor" level="info" additivity="false">
+        <AppenderRef ref="ACCESS" />
+    </Logger>
+
+    <Logger name="com.url" level="debug">
+    </Logger>
+
+    <Logger name="com.url.UrlCoreApp" level="info">
+        <AppenderRef ref="STDOUT" />
+    </Logger>
+
+    <Root level="info">
+      <AppenderRef ref="EVENT"/>
+      <AppenderRef ref="ERROR"/>
+    </Root>
+  </Loggers>
+</Configuration>
