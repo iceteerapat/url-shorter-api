@@ -31,39 +31,6 @@
 
   <Loggers>
 
-    <Logger name="org.apache.catalina" level="warn">
-    </Logger>
-    <Logger name="org.apache.cxf" level="info">
-    </Logger>
-
-    <Logger name="org.hibernate" level="info" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-    <Logger name="org.hibernate.SQL" level="debug" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-    <Logger name="org.hibernate.type" level="debug" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-    <Logger name="org.hibernate.hql.ast.AST" level="info" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-    <Logger name="org.hibernate.hql.internal.ast" level="info" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-    <Logger name="org.hibernate.hql" level="debug" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-    <Logger name="org.hibernate.tool.hbm2ddl" level="warn" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-    <Logger name="org.hibernate.cache" level="info" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-    <Logger name="org.hibernate.jdbc" level="debug" additivity="false">
-        <AppenderRef ref="HB" />
-    </Logger>
-
     <Logger name="org.hibernate.validator.internal.util.Version" level="warn">
     </Logger>
 

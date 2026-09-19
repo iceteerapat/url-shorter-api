@@ -136,6 +136,8 @@ public class ShorternApiService {
 
     public UrlsRes getUrls(String authorization) {
         UrlsRes res = new UrlsRes();
+        ResponseCode rc;
+
         Claims claims = tokenService.verifyToken(authorization);
         String customerNo = claims.getSubject();
         logger.info("customerNo: {}", customerNo);
@@ -143,7 +145,9 @@ public class ShorternApiService {
         List<Link> links = linkRepository.findByCustomerNoOrderByCreateDateDesc(customerNo);
 
         if (links.isEmpty()) {
-            throw new RuntimeException("URL(s) not found");
+            rc = ResponseCode.URL_NOT_FOUND;
+            res.setResponseCode(rc.code());
+            res.setResponseDesc(rc.desc());
         }
 
         List<LinkList> urls = new ArrayList<>();
@@ -154,8 +158,9 @@ public class ShorternApiService {
             urls.add(linkList);
         }
 
-        res.setResponseCode(ResponseCode.SUCCESS.code());
-        res.setResponseDesc(ResponseCode.SUCCESS.desc());
+        rc = ResponseCode.SUCCESS;
+        res.setResponseCode(rc.code());
+        res.setResponseDesc(rc.desc());
         res.setUrls(urls);
 
         return res;
@@ -163,19 +168,24 @@ public class ShorternApiService {
 
     public GenericResponse deactivate(String authorization, Long id) {
         GenericResponse res = new GenericResponse();
+        ResponseCode rc;
+
         Claims claims = tokenService.verifyToken(authorization);
         String customerNo = claims.getSubject();
         logger.info("customerNo: {}", customerNo);
 
         List<Link> links = linkRepository.findByCustomerNoOrderByCreateDateDesc(customerNo);
         if (links.isEmpty()) {
-            throw new RuntimeException("URL(s) not found");
+            rc = ResponseCode.URL_NOT_FOUND;
+            res.setResponseCode(rc.code());
+            res.setResponseDesc(rc.desc());
         }
 
         linkRepository.deleteById(id);
 
-        res.setResponseCode(ResponseCode.SUCCESS.code());
-        res.setResponseDesc(ResponseCode.SUCCESS.desc());
+        rc = ResponseCode.SUCCESS;
+        res.setResponseCode(rc.code());
+        res.setResponseDesc(rc.desc());
         return res;
     }
 }
